@@ -1,21 +1,23 @@
 FROM ubuntu:24.04
 
-ENV DEBIAN_FRONTEND=noninteractive \
-    TZ=UTC \
-    DISPLAY=:1 \
-    VNC_PORT=5901 \
-    NOVNC_PORT=6080 \
-    VNC_GEOMETRY=1920x1080 \
-    VNC_DEPTH=24 \
-    USERNAME=desktop \
-    HOME=/home/desktop
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
+
+ENV DISPLAY=:1
+ENV VNC_PORT=5901
+ENV NOVNC_PORT=8080
+ENV VNC_GEOMETRY=1920x1080
+ENV VNC_DEPTH=24
+
+ENV USERNAME=desktop
+ENV HOME=/home/desktop
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         xfce4 \
         xfce4-goodies \
-        xubuntu-icon-theme \
         xfce4-terminal \
+        xubuntu-icon-theme \
         tigervnc-standalone-server \
         tigervnc-tools \
         novnc \
@@ -26,11 +28,12 @@ RUN apt-get update && \
         x11-apps \
         xterm \
         sudo \
-        vim \
-        nano \
         curl \
         wget \
         git \
+        vim \
+        nano \
+        htop \
         net-tools \
         iproute2 \
         procps \
@@ -47,7 +50,7 @@ RUN useradd \
         ${USERNAME} \
     && usermod -aG sudo ${USERNAME} \
     && echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" \
-        > /etc/sudoers.d/${USERNAME} \
+       > /etc/sudoers.d/${USERNAME} \
     && chmod 0440 /etc/sudoers.d/${USERNAME}
 
 RUN mkdir -p /home/${USERNAME}/.vnc \
@@ -78,7 +81,7 @@ COPY entrypoint.sh /entrypoint.sh
 
 RUN chmod +x /entrypoint.sh
 
-EXPOSE 6080
+EXPOSE 8080
 
 VOLUME ["/home/desktop"]
 
