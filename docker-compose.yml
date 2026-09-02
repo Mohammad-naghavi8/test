@@ -1,0 +1,34 @@
+services:
+  ubuntu-desktop:
+    build:
+      context: .
+
+    container_name: ubuntu-desktop
+
+    restart: unless-stopped
+
+    ports:
+      - "6080:6080"
+
+    environment:
+      USERNAME: desktop
+
+      VNC_PASSWORD: "ChangeThisPassword123!"
+
+      VNC_GEOMETRY: "1920x1080"
+
+      VNC_DEPTH: "24"
+
+      DISPLAY: ":1"
+
+      VNC_PORT: "5901"
+
+      NOVNC_PORT: "6080"
+
+    volumes:
+      - ubuntu-home:/home/desktop
+
+    shm_size: "1gb"
+
+volumes:
+  ubuntu-home:
